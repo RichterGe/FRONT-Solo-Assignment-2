@@ -14,9 +14,22 @@ function handleInput(event: Event) {
 </script>
 
 <template>
-  <input
-      :value="modelValue"
-      @input="handleInput"
-      placeholder="Search..."
-  >
+  <div class="search-wrapper">
+    <input
+        type="text"
+        :value="modelValue"
+        @input="handleInput"
+        placeholder="🔍 Search notes, tags, or content..."
+    >
+  </div>
 </template>
+
+<style scoped>
+.search-wrapper {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: var(--space-lg);
+  width: 80%;
+  max-width: 600px;
+}
+</style>

@@ -15,34 +15,32 @@
 <style scoped>
 .base-card {
   background-color: var(--card-bg);
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  /* Softer shadow, removed the solid 1px border */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   width: 100%;
-  max-width: 600px;
-  margin: 8px;
-  font-family: sans-serif;
-  border: 1px solid #333333;
+  display: flex;
+  flex-direction: column;
 }
 
 .card-header {
-  padding: 16px 16px 8px 16px;
+  padding: var(--space-md) var(--space-md) var(--space-sm) var(--space-md);
   font-size: 1.25rem;
   font-weight: bold;
   color: var(--card-header);
 }
 
 .card-body {
-  padding: 16px;
+  padding: 0 var(--space-md) var(--space-md) var(--space-md);
   color: var(--card-body);
   line-height: 1.5;
 }
 
 .card-actions {
-  padding: 8px;
+  padding: var(--space-sm);
   display: flex;
-  justify-content: center;
+  justify-content: flex-end; /* Aligns the delete button to the right */
   background-color: var(--card-actions);
-  border-top: 1px solid #333333;
 }
 </style>

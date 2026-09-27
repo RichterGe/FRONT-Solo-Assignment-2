@@ -9,6 +9,7 @@
 
   const emit = defineEmits<{
     delete: [id: number];
+    filter: [tag: string];
   }>();
 </script>
 
@@ -20,7 +21,7 @@
     <template #content>
       {{note.content}}
       <div class="tags-container" v-if="note.tags && note.tags.length > 0">
-        <span class="tag" v-for="tag in note.tags" :key="tag">
+        <span class="tag" v-for="tag in note.tags" :key="tag" @click="emit('filter', tag)">
           #{{ tag }}
         </span>
       </div>
