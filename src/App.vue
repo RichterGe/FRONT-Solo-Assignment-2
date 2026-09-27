@@ -1,49 +1,62 @@
 <script setup lang="ts">
-import BaseCard from "./components/BaseCard.vue";
-import {ref} from "vue";
-import type {Note} from "./types/notes.ts";
-import NoteList from "./components/NoteList.vue";
+  import BaseCard from "./components/BaseCard.vue";
+  import {ref} from "vue";
+  import NoteList from "./components/NoteList.vue";
+  import SearchBar from "./components/searchBar.vue";
+  import { useNotes } from "./composables/useNotes.ts";
 
-  const notes = ref<Note[]>([]);
-  // const newNote = ref<Note>();
+  const { addNote, deleteNote, filteredNotes } = useNotes();
+
   const title = ref('');
   const content = ref('');
-  let nextId = 0;
+  const tagsInput = ref(''); // New ref for the tags input field
+  const searchTerm = ref(''); // Ref to track what the user types in the search bar
 
-  function addItem(title: string, content: string): void {
-    if(content == '' || title == ''){
+  const displayedNotes = filteredNotes(searchTerm);
+
+  function handleAdd() {
+    if (content.value === '' || title.value === '') {
       //TODO show error
       return;
     }
-    notes.value.push( {
-      id: nextId++,
-      title: title,
-      content: content,
-      tags: [],
-    });
-  }
+    const processedTags = tagsInput.value
+        .split(',')
+        .map(tag => tag.trim())
+        .filter(tag => tag.length > 0);
 
-  function deleteNote(id: number): void {
-    notes.value = notes.value.filter(note => note.id !== id);
+    addNote({
+      title: title.value,
+      content: content.value,
+      tags: processedTags
+    });
+
+    title.value = '';
+    content.value = '';
+    tagsInput.value = '';
   }
 
 </script>
 
 <template>
   <h1>QuickNotes</h1>
+
+  <SearchBar v-model="searchTerm" />
+
   Create a new Note:
   <BaseCard >
     <template #title>
-      <input type="text" v-model="title" />
+      <input type="text" v-model="title" placeholder="Title" />
     </template>
     <template #content>
-      <input type="text" v-model="content" />
+      <input type="text" v-model="content" placeholder="Content" />
+      <br />
+      <input type="text" v-model="tagsInput" placeholder="Tag, Tag" />
     </template>
     <template #actions>
-      <button @click="addItem(title, content)">add</button>
+      <button @click="handleAdd">add</button>
     </template>
   </BaseCard>
-  <NoteList :notes="notes" @delete="deleteNote" />
+  <NoteList :notes="displayedNotes" @delete="deleteNote" />
 </template>
 
 <style>

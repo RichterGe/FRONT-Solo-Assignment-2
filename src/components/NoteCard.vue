@@ -19,6 +19,11 @@
     </template>
     <template #content>
       {{note.content}}
+      <div class="tags-container" v-if="note.tags && note.tags.length > 0">
+        <span class="tag" v-for="tag in note.tags" :key="tag">
+          #{{ tag }}
+        </span>
+      </div>
     </template>
     <template #actions>
       <button @click="emit('delete', note.id)">🗑️</button>
@@ -27,5 +32,17 @@
 </template>
 
 <style scoped>
-
+.tags-container {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.tag {
+  background-color: #333;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+}
 </style>
