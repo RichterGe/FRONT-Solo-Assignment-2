@@ -1,39 +1,14 @@
 <script setup lang="ts">
-  import BaseCard from "./components/BaseCard.vue";
   import {ref} from "vue";
   import NoteList from "./components/NoteList.vue";
   import SearchBar from "./components/searchBar.vue";
   import { useNotes } from "./composables/useNotes.ts";
+  import NoteForm from "./components/NoteForm.vue";
 
   const { addNote, deleteNote, filteredNotes } = useNotes();
 
-  const title = ref('');
-  const content = ref('');
-  const tagsInput = ref(''); // New ref for the tags input field
-  const searchTerm = ref(''); // Ref to track what the user types in the search bar
-
+  const searchTerm = ref('');
   const displayedNotes = filteredNotes(searchTerm);
-
-  function handleAdd() {
-    if (content.value === '' || title.value === '') {
-      //TODO show error
-      return;
-    }
-    const processedTags = tagsInput.value
-        .split(',')
-        .map(tag => tag.trim())
-        .filter(tag => tag.length > 0);
-
-    addNote({
-      title: title.value,
-      content: content.value,
-      tags: processedTags
-    });
-
-    title.value = '';
-    content.value = '';
-    tagsInput.value = '';
-  }
 
 </script>
 
@@ -41,21 +16,8 @@
   <h1>QuickNotes</h1>
 
   <SearchBar v-model="searchTerm" />
-
   Create a new Note:
-  <BaseCard >
-    <template #title>
-      <input type="text" v-model="title" placeholder="Title" />
-    </template>
-    <template #content>
-      <input type="text" v-model="content" placeholder="Content" />
-      <br />
-      <input type="text" v-model="tagsInput" placeholder="Tag, Tag" />
-    </template>
-    <template #actions>
-      <button @click="handleAdd">add</button>
-    </template>
-  </BaseCard>
+  <NoteForm @add="addNote" />
   <NoteList :notes="displayedNotes" @delete="deleteNote" @filter="searchTerm = $event"/>
 </template>
 
