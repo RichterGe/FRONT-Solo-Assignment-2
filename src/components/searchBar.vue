@@ -21,15 +21,25 @@ function handleInput(event: Event) {
         @input="handleInput"
         placeholder="🔍 Search notes, tags, or content..."
     >
+    <button v-if="modelValue" @click="emit('update:modelValue', '')">
+      Clear
+    </button>
   </div>
 </template>
 
 <style scoped>
 .search-wrapper {
+  align-items: center;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: var(--space-lg);
-  width: 80%;
+  width: 100%;
   max-width: 600px;
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.search-wrapper input{
+  margin-bottom: 0;
 }
 </style>

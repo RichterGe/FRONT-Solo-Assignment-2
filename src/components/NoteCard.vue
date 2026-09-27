@@ -45,5 +45,17 @@
   padding: 4px 8px;
   border-radius: 12px;
   font-size: 0.8rem;
+  cursor: pointer; /* Changes the mouse cursor to a pointer */
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+/* Visually highlights the tag when hovered */
+.tag:hover {
+  background-color: var(--accent-color);
+}
+
+/* Optional: Adds a slight "click" pressing effect */
+.tag:active {
+  transform: scale(0.95);
 }
 </style>
